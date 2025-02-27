@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# run with:
+# wget -O /tmp/install-fish-debian.sh https://github.com/nicholas-a-guerra/Tools/raw/refs/heads/main/install-fish-debian.sh && bash /tmp/install-fish-debian.sh
+
 # Define colors for output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
