@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run with:
-# wget -O /tmp/install-fish-debian.sh https://github.com/nicholas-a-guerra/Tools/raw/refs/heads/main/install-fish-debian.sh && bash /tmp/install-fish-debian.sh
+# wget -O /tmp/install-fish-linux.sh https://github.com/nicholas-a-guerra/Tools/raw/refs/heads/main/install-fish-linux.sh && bash /tmp/install-fish-linux.sh
 
 # Define colors for output
 GREEN='\033[0;32m'
@@ -11,17 +11,32 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}=== Fish Shell Installation Script ===${NC}"
-echo -e "${YELLOW}Detecting Debian version...${NC}"
-DEBIAN_VERSION=$(lsb_release -rs)
-echo -e "${GREEN}Detected Debian version: ${DEBIAN_VERSION}${NC}"
 
-echo -e "\n${YELLOW}Adding Fish repository...${NC}"
-echo "deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_${DEBIAN_VERSION}/ /" | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
-echo -e "${GREEN}✓ Repository added${NC}"
+# Detect distribution
+DISTRO=$(lsb_release -is)
+echo -e "${GREEN}Detected distribution: ${DISTRO}${NC}"
 
-echo -e "\n${YELLOW}Adding repository key...${NC}"
-curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_${DEBIAN_VERSION}/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
-echo -e "${GREEN}✓ Key added${NC}"
+if [[ "$DISTRO" == "Debian" ]]; then
+    echo -e "${YELLOW}Detecting Debian version...${NC}"
+    DEBIAN_VERSION=$(lsb_release -rs)
+    echo -e "${GREEN}Detected Debian version: ${DEBIAN_VERSION}${NC}"
+    echo -e "\n${YELLOW}Adding Fish repository for Debian...${NC}"
+    echo "deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_${DEBIAN_VERSION}/ /" | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+    echo -e "${GREEN}✓ Repository added${NC}"
+
+    echo -e "\n${YELLOW}Adding repository key...${NC}"
+    curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_${DEBIAN_VERSION}/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
+    echo -e "${GREEN}✓ Key added${NC}"
+elif [[ "$DISTRO" == "Ubuntu" ]]; then
+    echo -e "\n${YELLOW}Adding Fish repository for Ubuntu...${NC}"
+    sudo add-apt-repository ppa:fish-shell/release-3 -y
+    echo -e "${GREEN}✓ Repository added${NC}"
+else
+    echo -e "\n${RED}Error: This script only supports Debian and Ubuntu.${NC}"
+    echo -e "${RED}Detected distribution: ${DISTRO}${NC}"
+    echo -e "${RED}Exiting...${NC}"
+    exit 1
+fi
 
 echo -e "\n${YELLOW}Updating package lists...${NC}"
 sudo apt-get update
