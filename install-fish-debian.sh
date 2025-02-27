@@ -8,7 +8,7 @@ sudo apt-get install fish -y
 
 fish -c '
     curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
-    echo "n" |fisher install IlanCosman/tide@v6
+    echo "n" | fisher install IlanCosman/tide@v6
     tide configure --auto --style=Rainbow --prompt_colors="16 colors" --show_time="12-hour format" --rainbow_prompt_separators=Round --powerline_prompt_heads=Round --powerline_prompt_tails=Round --powerline_prompt_style="Two lines, character" --prompt_connection=Dotted --powerline_right_prompt_frame=No --prompt_spacing=Sparse --icons="Many icons" --transient=No
     fisher install jorgebucaran/autopair.fish
 '
