@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# run with:
+# Run with:
 # wget -O /tmp/install-fish-linux.sh https://github.com/nicholas-a-guerra/Tools/raw/refs/heads/main/install-fish-linux.sh && bash /tmp/install-fish-linux.sh
+# ** The fish commands attempt to read stdin, so do not attempt to directly pipe wget stdout into bash stdin (this will break things) **
 
 # Define colors for output
 GREEN='\033[0;32m'
